@@ -11,6 +11,7 @@ import numpy as np
 
 # DFS
 def dfs(tree, tree_num=0, X_input=None, epsilon=160, scale=0.1, verbose=False):
+    X_input = np.array(X_input)  # if dataframe this converts to numpy
     paths = []
     pi_l = []  # this will be a list of lists of every pi_l ie: ['xi_1 <= 1000', 'xi_2 > 6000'..., wl]
     stack=[0]  # initialize stack for tree
@@ -39,8 +40,8 @@ def dfs(tree, tree_num=0, X_input=None, epsilon=160, scale=0.1, verbose=False):
         if children_left[this_node] == -1:  # if leaf node we dont do pruning even if a threshold is defined
             pass  # no pruning
         elif X_input is not None:
-            lower_bound = X_input.iloc[this_feature]-epsilon
-            upper_bound = X_input.iloc[this_feature]+epsilon
+            lower_bound = X_input[this_feature]-epsilon
+            upper_bound = X_input[this_feature]+epsilon
             if lower_bound <= this_threshold <= upper_bound:
                 pass  # no pruning because threshold within boundary, permissiable values on either side of threshold
             elif this_threshold < lower_bound:
@@ -130,7 +131,7 @@ def get_gamma_R(gbr_model, X_input, epsilon=160, delta=100000):
     variable_constraints = []
     for x_i in list(all_variables):
         this_index = int(x_i[2:])  # everything looks like x_i so indexing from x_[i..]
-        i_value = X_input.iloc[this_index]
+        i_value = X_input[this_index]
         var_robustness1 = f'{x_i} <= {i_value+epsilon}'
         var_robustness2 = f'{i_value-epsilon} <= {x_i}'  # ensures that x_i is withing these boundaries
         variable_constraints.append(f'And({var_robustness1}, {var_robustness2})')
