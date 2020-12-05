@@ -2,6 +2,8 @@
 
 An implementation of [VeriGB](https://arxiv.org/abs/1906.10991)
 
+If reading this somewhere else see the [Github repo](https://github.com/kennethjmyers/CS689_project). 
+
 Our main python functions are located in [VeriGB.py](./VeriGB.py). Experiments are located as follows:
 
 - Experiment replication (repeating original experiment) - ExperimentReplication.ipynb
